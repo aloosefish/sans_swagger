@@ -36,19 +36,19 @@ print(sprintf("total chars: %d", length(chars)))
 # Cut the text in semi-redundant sequences of maxlen characters
 dataset <- map(
   seq(1, length(text) - maxlen - 1, by = 3), 
-  ~list(sentece = text[.x:(.x + maxlen - 1)], next_char = text[.x + maxlen])
+  ~list(sentence = text[.x:(.x + maxlen - 1)], next_char = text[.x + maxlen])
 )
 
 dataset <- transpose(dataset)
 
 # Vectorization
-x <- array(0, dim = c(length(dataset$sentece), maxlen, length(chars)))
-y <- array(0, dim = c(length(dataset$sentece), length(chars)))
+x <- array(0, dim = c(length(dataset$sentence), maxlen, length(chars)))
+y <- array(0, dim = c(length(dataset$sentence), length(chars)))
 
-for(i in 1:length(dataset$sentece)){
+for(i in 1:length(dataset$sentence)){
   
   x[i,,] <- sapply(chars, function(x){
-    as.integer(x == dataset$sentece[[i]])
+    as.integer(x == dataset$sentence[[i]])
   })
   
   y[i,] <- as.integer(chars == dataset$next_char[[i]])
